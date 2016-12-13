@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>The Rhetoric of Donald Trump - A Data Visualization</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Playfair+Display:400,900'>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <div id="PresidentialSpeeches" class="wrapper ng-cloak">
+        <div class="copy-container">
+<h1>The Rhetoric of Donald Trump</h1>
+        <div class="copy-main">
+            <p>Throughout this election cycle, Trump has become infamous for many things (his hair, his strange relationship with his daughter, his odd undying love for Putin), but above all for his taglines - "make American great again", "build a wall and make Mexico pay for it", "I love women", and so forth. Curious as to just how radical his rhetoric has been, I did a bit of analysis on both word frequency and average grade level, comparing a collection of his speeches with past presidential speeches. The difference was stark. Trump's speeches are on average <em>less than half</em> the average grade level (that is, the number of years of education needed to understand a text) than average presidential speech.</p>
+            <p>Even more telling, however, were the most frequently used words. I removed a standard list of <a href="http://www.ranks.nl/stopwords">stop words</a> (that is, the most common words in the English language) from the results to improve the data. Normally, words such as "I", "we", and "you" are included in this list. However, Trump's usage of "I" represented such a high percentage in comparison to even the second most used word ("you") that I felt it statistically significant and worth retaining. By comparison, in past presidential speeches "our" is the most common word.</p>
+        </div>
+            <h2>Word Frequency and Grade Level of Donald Trump's Speeches</h2>
+            <div class="copy-secondary">
+                <p>With an average grade level of <em>5.2</em>, Trump's speeches focus mostly on - well, himself. "I" wins the race by a landslide, and "Don" (his own name) follows soon after ("Trump" makes an appearance as well). <a href="https://github.com/ryanmcdermott/trump-speeches">Data Source</a></p>
+            </div>
+            </div>
+        <div class="graph-wrapper trump ng-cloak">
+        <data-bar-graph data-graph-name="'trump'" data-spread-offset="12"></data-bar-graph>
+            <div class="graph-grade-container">
+                <p class="graph-grade-level">5.2</p>
+                <p class="graph-grade-subtitle">Grade Level</p>
+            </div>
+            </div>
+        <div class="copy-container">
+         <h2>Word Frequency and Grade Level of Presidential Speeches (1789 - 2016)</h2>
+            <div class="copy-secondary">
+                <p>Past presidential speeches focus heavily on an overarching motif of unity and nationalism - words like "people", "united", "one", and so forth appear again and again. <a href="http://www.datasets.co/dataset/US-Presidential-Speeches">Data Source</a></p>
+            </div>
+        </div>
+        <div class="graph-wrapper presidents ng-cloak">
+<data-bar-graph data-graph-name="'presidents'" data-spread-offset="12"></data-bar-graph>
+            <div class="graph-grade-container">
+                <p class="graph-grade-level">10.8</p>
+                <p class="graph-grade-subtitle">Grade Level</p>
+            </div>
+        </div>
+</div>
+    
+    <script type="text/javascript">
+    window.bootstrap = window.bootstrap || {};
+    window.bootstrap.graphData = 
+                       {
+                           "trump": [
+    {
+      "title": "i",
+      "value": 5678
+    },
+    {
+      "title": "you",
+      "value": 3526 
+    },
+    {
+      "title": "we",
+      "value": 2876 
+    },
+    {
+      "title": "going",
+      "value": 2271 
+    },
+    {
+      "title": "people",
+      "value": 1493  
+    },
+    {
+      "title": "don",
+      "value": 1114  
+    },
+    {
+      "title": "me",
+      "value": 866   
+    },
+    {
+      "title": "like",
+      "value": 761  
+    },
+    {
+      "title": "think",
+      "value": 752  
+    },
+    {
+      "title": "great",
+      "value": 726   
+    },
+    {
+      "title": "get",
+      "value": 716   
+    },
+    {
+      "title": "no",
+      "value": 619    
+    },
+    {
+      "title": "right",
+      "value": 608   
+    },
+    {
+      "title": "say",
+      "value": 583   
+    },
+    {
+      "title": "country",
+      "value": 548   
+    },
+    {
+      "title": "money",
+      "value": 436   
+    },
+    {
+      "title": "look",
+      "value": 434   
+    },
+    {
+      "title": "good",
+      "value": 404   
+    },
+    {
+      "title": "make",
+      "value": 374   
+    },
+    {
+      "title": "love",
+      "value": 338   
+    },
+    {
+      "title": "never",
+      "value": 319   
+    },
+    {
+      "title": "time",
+      "value": 316   
+    },
+    {
+      "title": "win",
+      "value": 314   
+    },
+    {
+      "title": "take",
+      "value": 310   
+    },
+    {
+      "title": "trump",
+      "value": 306    
+    },
+    {
+      "title": "big",
+      "value": 304    
+    },
+    {
+      "title": "things",
+      "value": 272    
+    },
+    {
+      "title": "believe",
+      "value": 271    
+    },
+    {
+      "title": "again",
+      "value": 258    
+    },
+    {
+      "title": "okay",
+      "value": 256    
+    },
+    {
+      "title": "world",
+      "value": 253    
+    },
+    {
+      "title": "everybody",
+      "value": 242    
+    },
+    {
+      "title": "deal",
+      "value": 242    
+    }
+  ],
+        "presidents": [
+    {
+      "title": "our",
+      "value": 154164 
+    },
+    {
+      "title": "we",
+      "value": 149014  
+    },
+    {
+      "title": "i",
+      "value": 144220  
+    },
+    {
+      "title": "states",
+      "value": 63619  
+    },
+    {
+      "title": "government",
+      "value": 60738  
+    },
+    {
+      "title": "people",
+      "value": 52196   
+    },
+    {
+      "title": "united",
+      "value": 52039   
+    },
+    {
+      "title": "you",
+      "value": 50782    
+    },
+    {
+      "title": "congress",
+      "value": 36762   
+    },
+    {
+      "title": "one",
+      "value": 35066   
+    },
+    {
+      "title": "country",
+      "value": 32438    
+    },
+    {
+      "title": "president",
+      "value": 30256    
+    },
+    {
+      "title": "time",
+      "value": 29820     
+    },
+    {
+      "title": "war",
+      "value": 29296    
+    },
+    {
+      "title": "great",
+      "value": 28848    
+    },
+    {
+      "title": "world",
+      "value": 28762    
+    },
+    {
+      "title": "american",
+      "value": 27868    
+    },
+    {
+      "title": "new",
+      "value": 26094    
+    },
+    {
+      "title": "year",
+      "value": 26048    
+    },
+    {
+      "title": "every",
+      "value": 25506    
+    },
+    {
+      "title": "public",
+      "value": 23640    
+    },
+    {
+      "title": "peace",
+      "value": 23198    
+    },
+    {
+      "title": "state",
+      "value": 21503    
+    },
+    {
+      "title": "power",
+      "value": 20110    
+    },
+    {
+      "title": "make",
+      "value": 18810    
+    },
+    {
+      "title": "nation",
+      "value": 18236     
+    },
+    {
+      "title": "law",
+      "value": 17858     
+    },
+    {
+      "title": "first",
+      "value": 17790     
+    },
+    {
+      "title": "against",
+      "value": 17086     
+    },
+    {
+      "title": "without",
+      "value": 16728     
+    },
+    {
+      "title": "men",
+      "value": 16488     
+    },
+    {
+      "title": "general",
+      "value": 16360     
+    },
+    {
+      "title": "think",
+      "value": 16071     
+    }
+  ]
+                       }
+    
+</script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+class DataStore {
+
+    constructor() {
+        this._graphData = window.bootstrap.graphData;
+    }
+
+    get graphData() {
+        return this._graphData;
+    }
+
+    /**
+    ** getSortedGraphValues :: object -> array
+    ** Returns array of numerical graph values from graph data
+    */ 
+    get getSortedGraphValues() {
+        return _.flow([
+            this._getGraphValues, 
+            this._filterNaNs,
+            _.sortBy
+        ]);
+    }
+
+    /**
+    ** getRangeValues :: array -> array
+    ** Returns array of rounded range values from graph values
+    */ 
+    get getRangeValues() {
+        return _.flow([
+            this._returnRange,
+            this._roundValues
+        ]);
+    }
+
+    /**
+    ** getRangeSpread :: array -> number
+    ** Returns value of spread of array of range values
+    */ 
+    get getRangeSpread() {
+        return _.flow([
+            this.getRangeValues, 
+            this._determineSpread
+        ]);
+    }
+
+    /**
+    ** getInitialValue :: array -> number
+    ** Returns first value of array of range values
+    */ 
+    get getInitialValue() {
+        return _.flow([
+            this.getRangeValues, 
+            _.first
+        ]);
+    }
+
+    /**
+    ** getLengthOfLongestString :: array -> number
+    ** Returns length of longest string from an array
+    */ 
+    get getLengthOfLongestString() {
+        return _.flow([
+            this._filterNotStrings,
+            this._getStringLengths,
+            _.uniq,
+            this._getGreatest
+        ]);
+    }
+
+    /**
+    ** getGraphValues :: object -> array
+    ** Returns array of values from graph data
+    */ 
+    _getGraphValues(graphData, value) {
+        return _.map(graphData, value);
+    }
+
+    /**
+    ** getGraphTitles :: object -> array
+    ** Returns array of titles from graph data
+    */ 
+    getGraphTitles(graphData) {
+        return _.map(graphData, "title");
+    }
+
+    /**
+    ** filterNaNs :: array -> array
+    ** Returns array of safe number values 
+    */ 
+    _filterNaNs(values) {
+        return values.filter(value => !Number.isNaN(value));
+    }
+
+    /**
+    ** filterNotStrings :: array -> array
+    ** Returns array of safe strings from array
+    */ 
+    _filterNotStrings(strings) {
+        return strings.filter(string => _.isString(string));
+    }
+
+    /**
+    ** returnRange :: array -> array
+    ** Returns array of appropriately stepped range values from sorted values based on spread offset
+    */ 
+    _returnRange(sortedValues, spread) {
+        const spreadOffset = this._determineSpread(sortedValues) / spread;
+        const firstRangeValue = (_.first(sortedValues) - spreadOffset);
+        const lastRangeValue = (_.last(sortedValues) + spreadOffset * 2);
+        return _.range(
+                firstRangeValue > 0 ? firstRangeValue : 0, 
+                lastRangeValue, 
+                spreadOffset
+            );
+    }
+
+    /**
+     ** roundValues :: array -> array
+     ** Returns array of values rounded to the nearest tenth
+     */ 
+    _roundValues(rangeValues) {
+        return rangeValues.map(val => Math.round(10 * val) / 10);
+    }
+
+    /**
+    ** determineSpread :: array -> number
+    ** Returns spread of sorted graph values
+    */ 
+    _determineSpread(sortedValues) {
+        return (_.last(sortedValues) - _.first(sortedValues));
+    }
+
+    /**
+    ** getStringLengths :: array -> array
+    ** Returns array of lengths of each string from an array of strings
+    */ 
+    _getStringLengths(strings) {
+        return strings.map(string => string.length);
+    }
+
+    /**
+    ** getGreatest :: array -> number
+    ** Returns greatest value in an array of numbers
+    */ 
+    _getGreatest(values) {
+        return values.reduce((prev, curr) => (curr - prev) > 0 ? curr : prev);
+    }
+
+}
+
+barGraph.$inject = ['$timeout', '$sce'];
+
+function barGraph($timeout, $sce) {
+
+    return {
+        restrict: 'E',
+        scope: {
+            graphName: '=',
+            spreadOffset: '='
+        },
+        replace: true,
+        controller: 'BarGraphController',
+        controllerAs: 'barGraphController',
+        bindToController: true,
+        templateUrl: $sce.trustAsResourceUrl('http://codepen.io/eehayman/pen/xEPRoy.html'),
+        link: link
+    };
+
+    function link(scope, element, attrs, ctrl) {
+
+}
+
+}
+
+class BarGraphController {
+
+    static get $inject() {
+        return ['dataStore'];
+    }
+    
+    constructor(dataStore) {
+        this._dataStore = dataStore;
+        this._activeValue = -1;
+    }
+    
+    get currentReportData() {
+        return this._dataStore.graphData[this.graphName];
+    }
+
+    get rangeSpread() {
+        return this._dataStore.getRangeSpread(this.sortedGraphValues, this.spreadOffset);
+    }
+    
+    get isMobile() {
+        return window.innerWidth < 600 ? true : false;
+    }
+
+    get barWidth() {
+        return this.isMobile ? (this.rangeSpread / this.currentReportData.length) * 2 : this.rangeSpread / this.currentReportData.length;
+    }
+
+    get sortedGraphValues() {
+        return this._dataStore.getSortedGraphValues(this.currentReportData, "value");
+    }
+
+    get yAxisRange() {
+        return this._dataStore.getRangeValues(this.sortedGraphValues, this.spreadOffset);
+    }
+
+    get viewBoxWidth() {
+        return this.currentReportData.length * this.barWidth;
+    }
+
+    get viewBoxHeight() {
+        return this.rangeSpread;
+    }
+
+    get graphInitialValue() {
+        return this._dataStore.getInitialValue(this.sortedGraphValues, this.spreadOffset);
+    }
+
+    get viewBox() {
+        if (this.currentReportData) {
+            return this.isMobile ? "0 0 " + this.viewBoxWidth / 2 + " " + this.viewBoxHeight * 2 : "0 0 " + this.viewBoxWidth + " " + this.viewBoxHeight;
+        }
+    }
+
+    get xAxisRange() {
+        if (this.currentReportData) {
+            return this._dataStore.getGraphTitles(this.currentReportData);
+        }
+    }
+
+    get activeValue() {
+        return this._activeValue;
+    }
+
+    get offsetPadding() {
+        if (this.xAxisRange) {
+            return (this._reportDataStore.getLengthOfLongestString(this.xAxisRange) * 7);
+        }
+    }
+
+    updateActiveValue(value) {
+        this._activeValue = value;
+    }
+
+}
+
+
+angular.module('PresidentialSpeeches', [])
+    .config(['$compileProvider', function ($compileProvider) {
+        $compileProvider.debugInfoEnabled(false);
+    }])
+    .service('dataStore', DataStore)
+    .controller('BarGraphController', BarGraphController)
+    .directive('barGraph', barGraph);
+
+angular.element(document).ready(function () {
+    angular.bootstrap(document.getElementById("PresidentialSpeeches"), ['PresidentialSpeeches']);
+})
+
+
+

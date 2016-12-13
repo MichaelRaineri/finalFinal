@@ -1,0 +1,250 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+@mixin media($breakpoint) {
+    @media (max-width: $breakpoint) {
+        @content;
+    }
+}
+
+// ------------- VARIABLES ------------- //
+$serif-font: "Playfair Display";
+$sans-serif-font: "Montserrat";
+// ------------- GENERAL ------------- //
+.ng-cloak {
+    opacity: 0;
+}
+
+body {
+    font-family: $serif-font;
+    color: #5b5b5b;
+    ::selection {
+        background-color: rgba(46, 49, 52, .7);
+        color: #f5f5f1;
+    }
+    ::-moz-selection {
+        background-color: rgba(46, 49, 52, .7);
+        color: #f5f5f1;
+    }
+}
+
+em {
+    font-style: italic;
+}
+
+a {
+    color: #2c2c2c;
+    text-decoration: underline;
+    transition: .2s;
+    &:hover {
+        color: rgba(#2c2c2c, .6);
+    }
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 1.15;
+    font-weight: 900;
+    letter-spacing: -.05rem;
+    color: #2c2c2c;
+    text-align: center;
+    margin-bottom: 1em;
+    @include media(720px) {
+        font-size: 3rem;
+    }
+    @include media(400px) {
+        font-size: 2.4rem;
+    }
+}
+
+h2 {
+    color: #2c2c2c;
+    font-size: 1.9rem;
+    line-height: 1.3;
+    margin-bottom: 1.1em;
+    &:before {
+        content: "";
+        height: 6px;
+        width: 120px;
+        background-color: #ebebeb;
+        display: block;
+        margin: 2.5em auto;
+        @include media(420px) {
+            margin: 1.8em auto;
+        }
+    }
+    @include media(720px) {
+        font-size: 1.7rem;
+    }
+}
+
+.wrapper {
+    margin-top: 4.5em;
+    @include media(420px) {
+        margin-top: 2.5em;
+    }
+}
+
+.copy {
+    &-container {
+        margin: 0 auto;
+        max-width: 680px;
+        @include media(720px) {
+            padding-left: 1.5em;
+            padding-right: 1.5em;
+        }
+    }
+    &-main {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        P + P {
+                margin-top: 2em;
+            }
+        @include media(720px) {
+            font-size: 1.1rem; 
+        }
+    }
+    &-secondary {
+        font-family: $sans-serif-font;
+        color: #979797;
+        font-size: .85rem;
+        line-height: 1.6;
+    }
+}
+
+// ------------- GENERAL ------------- //
+.graph {
+    &-wrapper {
+        max-width: 1000px;
+        margin: 4em auto;
+        position: relative;
+    }
+    &-container {
+        display: flex;
+    }
+    &-values {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        min-width: 120px;
+        padding-right: 10px;
+        @include media(590px) {
+            min-width: 100px;
+            padding-right: 5px;
+        }
+        @include media(450px) {
+            min-width: 80px;
+        }
+        @include media(380px) {
+            min-width: 60px;
+        }
+        &-item {
+            font-family: $sans-serif-font;
+            font-size: .8rem;
+            color: #979797;
+            text-transform: uppercase;
+            letter-spacing: .05rem;
+            transition: .2s;
+            &.active {
+                color: #000;
+            }
+            @include media(590px) {
+                font-size: .65rem;
+            }
+            @include media(450px) {
+                font-size: .55rem;
+            }
+            @include media(380px) {
+                font-size: .4rem;
+            }
+        }
+    }
+    &-svg {
+        flex-grow: 1;
+        > svg {
+            stroke: #fff;
+            rect {
+                transition: .2s;
+                @include media(600px) {
+                    stroke-width: 1;
+                }
+            }
+            .trump & {
+                rect:nth-child(even) {
+                    fill: rgba(#ae0001, .2);
+                }
+                rect:nth-child(odd) {
+                    fill: rgba(#ae0001, .4);
+                }
+                rect:hover {
+                    fill: rgba(#ae0001, .8);
+                }
+            }
+            .presidents & {
+                rect:nth-child(even) {
+                    fill: rgba(#0062cd, .2);
+                }
+                rect:nth-child(odd) {
+                    fill: rgba(#0062cd, .4);
+                }
+                rect:hover {
+                    fill: rgba(#0062cd, .8);
+                }
+            }
+        }
+    }
+    &-grade {
+        &-container {
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+            text-align: center;
+            border: 5px solid #ebebeb;
+            border-radius: 10px;
+            box-shadow: 5px 5px 0 #fbfbfb;
+            width: 196px;
+            height: 196px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            @include media(775px) {
+                font-size: 3.3rem;
+                width: 120px;
+                height: 120px;
+            }
+            @include media(500px) {
+                position: static;
+                margin: .5em auto;
+            }
+        }
+        &-level {
+            font-weight: 900;
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: .15em;
+            letter-spacing: -.1rem;
+            @include media(775px) {
+                font-size: 3rem;
+            }
+            @include media(400px) {
+                font-size: 2.6rem;
+            }
+        }
+        &-subtitle {
+            font-family: "Montserrat";
+            font-size: .8rem;
+            color: #979797;
+            text-transform: uppercase;
+            letter-spacing: .05rem;
+        }
+    }
+}
